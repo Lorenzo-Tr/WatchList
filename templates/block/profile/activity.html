@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="profile__container">
+        <main class="profile">
+            <ul class="activity_list">
+            <h1>Friend Activity</h1>
+            {% for object in friend_activity %}
+                <li class="activity">
+                    <div class="wrap">
+                        <div class="activity__list">
+                            <a href="{% url "anime_detail" object.anime_id %}" class="cover" style="background-image: url('{{ object.anime.image.url }}')">
+                            </a>
+                            <div class="detail">
+                                <a href="{% url "anime_detail" object.anime_id %}" class="name">
+                                    {{ object.user.username }}
+                                </a>
+                                <div class="status">
+                                    Added to the WatchList
+                                    <a class="title" href="{% url "anime_detail" object.anime_id %}">
+                                        {{ object.anime.title }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="time">
+                                {{ object.update_date }}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+            <ul class="activity_list">
+                <h1>Your Activity</h1>
+                {% for object in user_activity %}
+                <li class="activity">
+                    <div class="wrap">
+                        <div class="activity__list">
+                            <a href="{% url "anime_detail" object.anime_id %}" class="cover" style="background-image: url('{{ object.anime.image.url }}')">
+                            </a>
+                            <div class="detail">
+                                <a href="{% url "anime_detail" object.anime_id %}" class="name">
+                                    {{ object.user.username }}
+                                </a>
+                                <div class="status">
+                                    Added to the WatchList
+                                    <a class="title" href="{% url "anime_detail" object.anime_id %}">
+                                        {{ object.anime.title }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="time">
+                                {{ object.update_date }}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </main>
+   </div>
+{% endblock %}

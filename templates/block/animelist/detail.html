@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <img src="{{ object.image.url }}" alt="Cover of {{ object.title }}">
+    <h1>{{ object.title }}</h1>
+    <p>{{ object.summary }}</p>
+    <h3>Episodes</h3>
+    <p>{{ object.nb_episode }}</p>
+    <h3>Episode duration</h3>
+    <p>{{ object.episode_duration }}</p>
+    <h3>Status</h3>
+    <p>{{ object.get_status_code_display }}</p>
+{% endblock %}

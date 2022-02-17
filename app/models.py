@@ -62,7 +62,6 @@ class FriendshipRequest(models.Model):
 
 
 class FriendshipManager(models.Manager):
-
     def sent_requests(self, user):
         """ Return a list of friendship requests from user """
         qs = (
@@ -171,3 +170,51 @@ class Friendship(models.Model):
         if self.to_user == self.from_user:
             raise ValidationError("Users cannot be friends with themselves.")
         super().save(*args, **kwargs)
+
+
+class AnimeList(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    summary = models.TextField(blank=True, null=True)
+    episode_duration = models.IntegerField(blank=True, null=True)
+    image = models.ImageField(upload_to='covers/', blank=True, null=True)
+    nb_episode = models.IntegerField(blank=True, null=True)
+
+    class Status(models.TextChoices):
+        FINISH = 'F', 'Finish'
+        IN_PROGRESS = 'P', 'In Progress'
+
+    status_code = models.TextField(max_length=1, choices=Status.choices)
+
+    def __str__(self):
+        return f"[{self.id}] {self.title}" or "? (no title) ?"
+
+
+class WatchList(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user",
+    )
+    anime = models.ForeignKey(
+        AnimeList,
+        on_delete=models.CASCADE,
+        related_name="anime",
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'anime_id'], name='whatchlist_add')
+        ]
+
+    progression = models.IntegerField(default=0)
+
+    creation_date = models.DateTimeField(editable=False, blank=True)
+    update_date = models.DateTimeField(blank=True)
+
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps """
+        if not self.id:
+            self.creation_date = timezone.now()
+        self.update_date = timezone.now()
+        return super().save(*args, **kwargs)
+

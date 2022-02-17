@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from app.models import Friendship, FriendshipRequest
+from app.models import Friendship, FriendshipRequest, AnimeList
 
 
 class FriendAdmin(admin.ModelAdmin):
@@ -15,4 +15,5 @@ class FriendshipRequestAdmin(admin.ModelAdmin):
 
 admin.site.register(Friendship, FriendAdmin)
 admin.site.register(FriendshipRequest, FriendshipRequestAdmin)
+admin.site.register(AnimeList)
 

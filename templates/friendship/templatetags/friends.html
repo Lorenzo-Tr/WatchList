@@ -1,9 +1,5 @@
 <ul>
 {% for f in friends %}
-   {% if f.first_name or f.last_name %}
-   <li>{{ f.username }} ({{ f.first_name }} {{ f.last_name }})</li>
-   {% else %}
-   <li>{{ f.username }}</li>
-   {% endif %}
+    <li><a href="{% url "user_profile" f.username %}">{{ f.username }}</a></li>
 {% endfor %}
 </ul>

@@ -1,6 +1,12 @@
+{% extends 'base.html' %}
+
 {% block content %}
-{% load friendshiptags %}
-<h1>Your Friends</h1>
-{% get_by_name friendship_context_object_name as var %}
-{% friends var %}
+<div class="friend__wrap">
+    <div class="friend">
+    {% load friendshiptags %}
+    <h3>Your Friends</h3>
+    {% get_by_name friendship_context_object_name as var %}
+    {% friends var %}
+    </div>
+</div>
 {% endblock %}

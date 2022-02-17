@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Anime</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+         <div class="groups_form">
+            {{ field.label }}
+            {{ field }}
+         </div>
+        {% endfor %}
+
+        <button type="submit">Envoyer</button>
+    </form>
+{% endblock %}

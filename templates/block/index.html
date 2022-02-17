@@ -1,11 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Hello</h1>
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-    {% if user is not None %}
-        {% if user.is_authenticated %}
-            <p>Hello, {{ user.username }}</p>
-        {% endif %}
-    {% endif %}
+    <div class="container">
+        <h1>Anime</h1>
+        <ul class="list">
+            {% for object in object_list %}
+                <li class="card">
+                    <a href="{% url "anime_detail" object.pk %}" class="cover">
+                        <img src="{{ object.image.url }}" alt="Cover of {{ object.title }}">
+                    </a>
+                    <a href="{% url "anime_detail" object.pk %}" class="title">
+                        {% for anime in watchlist %}
+                            {% if object.pk is anime.anime_id %}
+                                <span class="added"></span>
+                            {% endif %}
+                        {% endfor %}
+                        {{ object.title }}
+                    </a>
+                    {% if user is not None %}
+                        {% if user.is_authenticated %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="anime_id" value="{{ object.pk }}" />
+                                <input type="submit" value="[+]" />
+                            </form>
+                        {% else %}
+                            <a href="{% url "login" %}">[+]</a>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user is not None %}
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a href="{% url "anime_update" object.pk %}">[Edit]</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
